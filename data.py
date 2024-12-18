@@ -1,10 +1,11 @@
+# Amin Rad
+#10/12/2024
+# Description:  This program will read the data and clean the data
+
+
+
 import numpy as np
 import pandas as pd
-import geopandas as gpd
-import datetime as dt
-import pyproj
-import os
-import webbrowser
 
 path = r"C:\Users\USAR705244\OneDrive - WSP O365\Documents\Kaggle\TLC 2024\\"
 
