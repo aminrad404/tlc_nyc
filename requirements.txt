@@ -8,3 +8,6 @@ streamlit
 folium
 streamlit-folium
 zipfile
+requests
+io
+os
