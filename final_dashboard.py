@@ -18,7 +18,7 @@ if response.status_code == 200:
     # Open the zip file
     with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
         # Extract and read the CSV file
-        with zip_ref.open('yourfile.csv') as file:  # Replace 'yourfile.csv' with the actual file name
+        with zip_ref.open('pickup_dropoff_cleaned.csv') as file: 
             csv_data = pd.read_csv(file)
             
 # Define the raw URLs of the shapefiles
