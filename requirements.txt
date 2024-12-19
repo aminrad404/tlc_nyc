@@ -11,3 +11,4 @@ zipfile
 requests
 io
 os
+gdal
