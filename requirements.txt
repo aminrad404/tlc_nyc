@@ -1,6 +1,10 @@
+geopandas
+fiona
+gdal
+pyogrio
+pandas
+altair
 streamlit
 folium
 streamlit-folium
-geopandas
-pandas
-altair
+zipfile
