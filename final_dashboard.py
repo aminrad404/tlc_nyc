@@ -4,11 +4,47 @@ import folium
 import altair as alt
 import pandas as pd
 import geopandas as gpd
+import zipfile
+import requests
+import io
+import os
 
 # Load the datasets
-path = r"C:\Users\USAR705244\OneDrive - WSP O365\Documents\Kaggle\TLC 2024\\"
-shapefile = gpd.read_file(path + 'taxi_zones.shp')
-csv_data = pd.read_csv(path + 'pickup_dropoff_cleaned.csv')
+# URL of the zip file on GitHub 
+zip_file_url = "https://raw.githubusercontent.com/aminrad404/tlc_nyc/main/pickup+dopoff_cleaned.zip"
+# Download the zip file
+response = requests.get(zip_file_url)
+if response.status_code == 200:
+    # Open the zip file
+    with zipfile.ZipFile(io.BytesIO(response.content)) as zip_ref:
+        # Extract and read the CSV file
+        with zip_ref.open('yourfile.csv') as file:  # Replace 'yourfile.csv' with the actual file name
+            csv_data = pd.read_csv(file)
+            
+# Define the raw URLs of the shapefiles
+shapefiles = {
+    "shp": "https://raw.githubusercontent.com/aminrad404/tlc_nyc/main/taxi_zones.shp",
+    "shx": "https://raw.githubusercontent.com/aminrad404/tlc_nyc/main/taxi_zones.shx",
+    "dbf": "https://raw.githubusercontent.com/aminrad404/tlc_nyc/main/taxi_zones.dbf",
+}
+
+# Create a temporary directory to store the files
+temp_dir = "temp_shapefiles"
+os.makedirs(temp_dir, exist_ok=True)
+
+# Download each file
+for ext, url in shapefiles.items():
+    response = requests.get(url)
+    if response.status_code == 200:
+        with open(os.path.join(temp_dir, f"taxi_zones.{ext}"), "wb") as file:
+            file.write(response.content)
+    else:
+        print(f"Failed to download {ext} file.")
+
+# Load the shapefile into Geopandas
+shapefile_path = os.path.join(temp_dir, "taxi_zones.shp")
+gdf = gpd.read_file(shapefile_path)
+
 
 # Ensure correct data types for merging
 csv_data['PULocationID'] = csv_data['PULocationID'].astype(int)
